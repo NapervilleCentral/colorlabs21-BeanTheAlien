@@ -1,0 +1,17 @@
+#BlueJ class context
+comment0.target=Farben
+comment1.params=args
+comment1.target=void\ main(java.lang.String[])
+comment2.params=val\ f
+comment2.target=int\ mult(int,\ double)
+comment3.params=v
+comment3.target=int\ neg(int)
+comment4.params=v
+comment4.target=int\ light(int)
+comment5.params=v
+comment5.target=int\ dark(int)
+comment6.params=v\ b
+comment6.target=int\ nextColour(int,\ int)
+comment7.params=r
+comment7.target=int\ demon(int)
+numComments=8
