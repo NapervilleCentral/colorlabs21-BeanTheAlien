@@ -18,7 +18,7 @@ public class Farben
         Picture bug4 = new Picture("images/caterpillar.jpg");
         Picture bug5 = new Picture("images/caterpillar.jpg");
         Picture bug6 = new Picture("images/caterpillar.jpg");
-        
+        bug.explore();
         Pixel[] pxs = bug.getPixels();
         for(Pixel px : pxs) {
             px.setRed(mult(px.getRed(), 0.5));
@@ -67,8 +67,9 @@ public class Farben
         bug5.explore();
         
         Pixel[] pxs6 = bug6.getPixels();
+        Color leaf = new Color(1, 255, 0);
         for(Pixel px : pxs6) {
-            px.setColor(demon(px.getColor()));
+            if(inRange(px, leaf)) px.setColor(new Color(25, 30, 189));
         }
         bug6.explore();
     }
@@ -77,10 +78,10 @@ public class Farben
     public static int light(int v) { return (int)(v * 3); }
     public static int dark(int v) { return (int)(v / 3); }
     public static int nextColour(int v, int b) { return Math.min(255, v + b); }
-    public static Color demon(Color colour) {
-        int r = colour.getRed();
-        int b = colour.getBlue();
-        int g = colour.getGreen();
-        return new Color(Math.min(r + ran.nextInt(175, 256), 255), Math.max(b - ran.nextInt(170, 231), 0), Math.max(g - ran.nextInt(170, 231), 0));
+    public static boolean inRange(Pixel px, Color colour) {
+        boolean r = colour.getRed() - 20 <= px.getRed() && px.getRed() <= colour.getRed() + 20;
+        boolean g = colour.getGreen() - 20 <= px.getGreen() && px.getGreen() <= colour.getGreen() + 20;
+        boolean b = colour.getBlue() - 20 <= px.getBlue() && px.getBlue() <= colour.getBlue() + 20;
+        return r && g && b;
     }
 }
