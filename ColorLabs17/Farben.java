@@ -9,6 +9,7 @@ import java.awt.*;
 import java.util.*;
 public class Farben
 {
+    public static Random ran = new Random();
     public static void main(String[] args) {
         Picture bug = new Picture("images/caterpillar.jpg");
         Picture bug1 = new Picture("images/caterpillar.jpg");
@@ -67,7 +68,7 @@ public class Farben
         
         Pixel[] pxs6 = bug6.getPixels();
         for(Pixel px : pxs6) {
-            px.setRed(demon(px.getRed()));
+            px.setColor(demon(px.getColor()));
         }
         bug6.explore();
     }
@@ -76,5 +77,10 @@ public class Farben
     public static int light(int v) { return (int)(v * 3); }
     public static int dark(int v) { return (int)(v / 3); }
     public static int nextColour(int v, int b) { return Math.min(255, v + b); }
-    public static int demon(int r) { return Math.min(255, r + (new Random().nextInt(-100, 101))); }
+    public static Color demon(Color colour) {
+        int r = colour.getRed();
+        int b = colour.getBlue();
+        int g = colour.getGreen();
+        return new Color(Math.min(r + ran.nextInt(175, 256), 255), Math.max(b - ran.nextInt(170, 231), 0), Math.max(g - ran.nextInt(170, 231), 0));
+    }
 }

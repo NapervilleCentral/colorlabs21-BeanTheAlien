@@ -45,33 +45,34 @@ public class SheparFaireyLab
         // Picture.getHight(): int
         // Picture.write(String fileName): boolean
         
-        Picture bug = img("caterpillar");
-        
-        // bug.getPixel(5, 0).setColor(new Color(255, 0, 0));
-        // setAt(bug, 5, 0, new Color(255, 0, 0));
-        
-        Pixel[] pxs = bug.getPixels();
-        
-        // pxs[0].setColor(new Color(1, 2, 3));
-        
-        int i = 0;
+        Picture dude = new Picture("dude.jpg");
+        Pixel[] pxs = dude.getPixels();
+        // grayscale
         for(Pixel px : pxs) {
-            if(i % 2 == 0) {
-                px.setRed(ran(px.getRed()));
-                px.setBlue(ran(px.getBlue()));
-                px.setGreen(ran(px.getGreen()));
-            }
-            i++;
+            int avg = (int)px.getAverage();
+            px.setColor(new Color(avg, avg, avg));
         }
+        // 0 - 255
+        // dark blue | red | light blue | off white
+        Arrays.sort(pxs, (p1, p2) -> Integer.compare(sum(p1), sum(p2)));
+        int group = Math.round(pxs.length / 4);
+        Color[] colours = {
+            new Color(9, 23, 89),
+            new Color(255, 43, 43),
+            new Color(156, 208, 240),
+            new Color(255, 250, 250)
+        };
+        for(int i = 0; i < 4; i++) {
+            for(int j = 0; j < group; j++) {
+                Color colour = colours[i];
+                pxs[j + (group * i)].setColor(colour);
+            }
+        }
+        dude.explore();
+        // min - max
+        // dark blue | red | light blue | off white
         
-        bug.explore();
+        dude.write("images/caterpillar1.jpg");
     }
-    public static double avg(Pixel px) {
-        return px.getAverage();
-    }
-    public static Picture img(String name) {
-        return new Picture(String.format("images/%s.jpg", name));
-    }
-    public static int ran(int max) { return (int)(Math.random() * max); }
-    public static Color ranRGB() { return new Color(ran(255), ran(255), ran(255)); }
+    public static int sum(Pixel px) { return px.getRed() + px.getBlue() + px.getGreen(); }
 }
