@@ -2,7 +2,6 @@
 comment0.target=SheparFaireyLab
 comment1.params=args
 comment1.target=void\ main(java.lang.String[])
-comment1.text=\r\n\ main\ method,\ to\ test\ the\ picture\r\n\ \ \r\n
 comment2.params=px
 comment2.target=int\ sum(Pixel)
 comment3.params=pxs

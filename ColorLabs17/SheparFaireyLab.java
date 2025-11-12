@@ -6,27 +6,34 @@
  * @version (a version number or a date)
  */
 import java.awt.*;
+import java.awt.image.*;
 import java.util.*;
 import java.util.List; // resolves problem with java.awt.List and java.util.List
+import javax.swing.*;
+import javax.imageio.*;
+import java.io.*;
 
-public class SheparFaireyLab
+public class SheparFaireyLab extends JPanel
 {
-    /**
-     * main method, to test the picture
-     *  
-     */
-    public static void main(String[] args) {
-        //opens selfie picture
-        /*String fileName = FileChooser.pickAFile();
-        Picture pictObj = new Picture(fileName);
-        pictObj.explore();*/
-        //relative path
-        //Picture apic = new Picture("images\\beach.jpg");
-        //change with selfie picture
-        //Picture me = new Picture("images/beach.jpg");
-        //Picture me1 = new Picture("images/beach.jpg");
-        //Picture me2 = new Picture("images/beach.jpg"); 
-        
+    public BufferedImage img;
+    @Override
+    protected void paintComponent(Graphics g) {
+        super.paintComponent(g); // Call superclass method
+        g.drawImage(img, 0, 0, this); // Draw the image
+
+        // Set font and color for the string
+        g.setFont(new Font("Arial", Font.BOLD, 24));
+        g.setColor(Color.RED);
+
+        // Draw the string at specified coordinates
+        g.drawString("Cheese", 50, 100); // x=50, y=100
+    }
+    public SheparFaireyLab() {
+        try {
+            ImageIO.read(new File("dude.jpg"));
+        } catch(Exception e) {}
+    }
+    public static void main(String[] args) throws IOException {
         // Pixel.getColor(): Color
         // Pixel.getRed(): int
         // Pixel.getGreen(): int
@@ -88,8 +95,15 @@ public class SheparFaireyLab
             new Color(156, 25, 28),
             new Color(202, 211, 235)
         };
-        Picture dude2 = new Picture("dude.jpg");
-        Pixel[] pxs2 = dude2.getPixels();
+        // Picture dude2 = new Picture("dude.jpg");
+        JFrame frame = new JFrame();
+        SheparFaireyLab panel = new SheparFaireyLab();
+        frame.add(panel);
+        frame.setSize(600, 600);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setVisible(true);
+        
+        Pixel[] pxs2 = img.getPixels();
         gray(pxs2);
         sort(pxs2);
         int group2 = Math.round(pxs2.length / 4);
@@ -98,12 +112,11 @@ public class SheparFaireyLab
                 pxs2[j + (group2 * i)].setColor(colours2[i]);
             }
         }
-        dude2.drawString("Cheese", 0, dude2.getHeight());
         dude2.explore();
         
-        //dude.write("dude1.jpg");
-        //dude1.write("dude2.jpg");
-        //dude2.write("dude3.jpg");
+        dude.write("dude1.jpg");
+        dude1.write("dude2.jpg");
+        dude2.write("dude3.jpg");
     }
     public static int sum(Pixel px) { return px.getRed() + px.getBlue() + px.getGreen(); }
     public static void gray(Pixel[] pxs) {
