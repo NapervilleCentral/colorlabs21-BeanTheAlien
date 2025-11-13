@@ -6,16 +6,16 @@
  * @version (a version number or a date)
  */
 import java.awt.*;
-import java.awt.image.*;
+//import java.awt.image.*;
 import java.util.*;
 import java.util.List; // resolves problem with java.awt.List and java.util.List
-import javax.swing.*;
+/*import javax.swing.*;
 import javax.imageio.*;
-import java.io.*;
+import java.io.*;*/
 
-public class SheparFaireyLab extends JPanel
+public class SheparFaireyLab //extends JPanel
 {
-    public BufferedImage img;
+    /*public BufferedImage img;
     @Override
     protected void paintComponent(Graphics g) {
         super.paintComponent(g); // Call superclass method
@@ -32,8 +32,8 @@ public class SheparFaireyLab extends JPanel
         try {
             ImageIO.read(new File("dude.jpg"));
         } catch(Exception e) {}
-    }
-    public static void main(String[] args) throws IOException {
+    }*/
+    public static void main(String[] args) /*throws IOException*/ {
         // Pixel.getColor(): Color
         // Pixel.getRed(): int
         // Pixel.getGreen(): int
@@ -95,15 +95,15 @@ public class SheparFaireyLab extends JPanel
             new Color(156, 25, 28),
             new Color(202, 211, 235)
         };
-        // Picture dude2 = new Picture("dude.jpg");
-        JFrame frame = new JFrame();
+        Picture dude2 = new Picture("dude.jpg");
+        /*JFrame frame = new JFrame();
         SheparFaireyLab panel = new SheparFaireyLab();
         frame.add(panel);
         frame.setSize(600, 600);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);
+        frame.setVisible(true);*/
         
-        Pixel[] pxs2 = img.getPixels();
+        Pixel[] pxs2 = dude2.getPixels();
         gray(pxs2);
         sort(pxs2);
         int group2 = Math.round(pxs2.length / 4);
@@ -112,10 +112,14 @@ public class SheparFaireyLab extends JPanel
                 pxs2[j + (group2 * i)].setColor(colours2[i]);
             }
         }
+        Graphics g = dude2.getGraphics();
+        g.setFont(new Font("Arial", Font.BOLD, 24));
+        g.setColor(new Color(0, 0, 0));
+        g.drawString("Cheese", 0, 0);
         dude2.explore();
         
-        dude.write("dude1.jpg");
-        dude1.write("dude2.jpg");
+        //dude.write("dude1.jpg");
+        //dude1.write("dude2.jpg");
         dude2.write("dude3.jpg");
     }
     public static int sum(Pixel px) { return px.getRed() + px.getBlue() + px.getGreen(); }
