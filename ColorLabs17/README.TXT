@@ -11,5 +11,5 @@ HOW TO START THIS PROJECT:
 AUTHORS:
 USER INSTRUCTIONS:
 
-- need 4 people
-1. who critiqued and what was critique
+Joshua
+good, why is it rotated sideways

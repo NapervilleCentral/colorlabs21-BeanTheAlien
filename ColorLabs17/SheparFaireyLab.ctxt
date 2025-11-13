@@ -1,9 +1,7 @@
 #BlueJ class context
 comment0.target=SheparFaireyLab
-comment0.text=import\ javax.swing.*;\r\nimport\ javax.imageio.*;\r\nimport\ java.io.*;
 comment1.params=args
 comment1.target=void\ main(java.lang.String[])
-comment1.text=public\ BufferedImage\ img;\r\n\ \ \ \ @Override\r\n\ \ \ \ protected\ void\ paintComponent(Graphics\ g)\ {\r\n\ \ \ \ \ \ \ \ super.paintComponent(g);\ //\ Call\ superclass\ method\r\n\ \ \ \ \ \ \ \ g.drawImage(img,\ 0,\ 0,\ this);\ //\ Draw\ the\ image\r\n\r\n\ \ \ \ \ \ \ \ //\ Set\ font\ and\ color\ for\ the\ string\r\n\ \ \ \ \ \ \ \ g.setFont(new\ Font("Arial",\ Font.BOLD,\ 24));\r\n\ \ \ \ \ \ \ \ g.setColor(Color.RED);\r\n\r\n\ \ \ \ \ \ \ \ //\ Draw\ the\ string\ at\ specified\ coordinates\r\n\ \ \ \ \ \ \ \ g.drawString("Cheese",\ 50,\ 100);\ //\ x\=50,\ y\=100\r\n\ \ \ \ }\r\n\ \ \ \ public\ SheparFaireyLab()\ {\r\n\ \ \ \ \ \ \ \ try\ {\r\n\ \ \ \ \ \ \ \ \ \ \ \ ImageIO.read(new\ File("dude.jpg"));\r\n\ \ \ \ \ \ \ \ }\ catch(Exception\ e)\ {}\r\n}
 comment2.params=px
 comment2.target=int\ sum(Pixel)
 comment3.params=pxs

@@ -6,34 +6,12 @@
  * @version (a version number or a date)
  */
 import java.awt.*;
-//import java.awt.image.*;
 import java.util.*;
 import java.util.List; // resolves problem with java.awt.List and java.util.List
-/*import javax.swing.*;
-import javax.imageio.*;
-import java.io.*;*/
 
-public class SheparFaireyLab //extends JPanel
+public class SheparFaireyLab
 {
-    /*public BufferedImage img;
-    @Override
-    protected void paintComponent(Graphics g) {
-        super.paintComponent(g); // Call superclass method
-        g.drawImage(img, 0, 0, this); // Draw the image
-
-        // Set font and color for the string
-        g.setFont(new Font("Arial", Font.BOLD, 24));
-        g.setColor(Color.RED);
-
-        // Draw the string at specified coordinates
-        g.drawString("Cheese", 50, 100); // x=50, y=100
-    }
-    public SheparFaireyLab() {
-        try {
-            ImageIO.read(new File("dude.jpg"));
-        } catch(Exception e) {}
-    }*/
-    public static void main(String[] args) /*throws IOException*/ {
+    public static void main(String[] args) {
         // Pixel.getColor(): Color
         // Pixel.getRed(): int
         // Pixel.getGreen(): int
@@ -90,19 +68,12 @@ public class SheparFaireyLab //extends JPanel
         //dude1.explore();
         
         Color[] colours2 = {
-            new Color(64, 184, 24),
-            new Color(38, 201, 163),
-            new Color(156, 25, 28),
-            new Color(202, 211, 235)
+            new Color(51, 138, 46),
+            new Color(42, 79, 110),
+            new Color(170, 122, 57),
+            new Color(168, 56, 59)
         };
         Picture dude2 = new Picture("dude.jpg");
-        /*JFrame frame = new JFrame();
-        SheparFaireyLab panel = new SheparFaireyLab();
-        frame.add(panel);
-        frame.setSize(600, 600);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setVisible(true);*/
-        
         Pixel[] pxs2 = dude2.getPixels();
         gray(pxs2);
         sort(pxs2);
@@ -113,9 +84,10 @@ public class SheparFaireyLab //extends JPanel
             }
         }
         Graphics g = dude2.getGraphics();
-        g.setFont(new Font("Arial", Font.BOLD, 24));
-        g.setColor(new Color(0, 0, 0));
-        g.drawString("Cheese", 0, 0);
+        g.setFont(new Font("Comic Sans MS", Font.BOLD, dude2.getWidth() / 5));
+        g.setColor(new Color(255, 255, 0));
+        FontMetrics fm = g.getFontMetrics();
+        g.drawString("Cheese", (dude.getWidth() - fm.stringWidth("Cheese")) / 2, dude.getHeight());
         dude2.explore();
         
         //dude.write("dude1.jpg");
