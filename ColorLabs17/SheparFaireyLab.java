@@ -8,10 +8,12 @@
 import java.awt.*;
 import java.util.*;
 import java.util.List; // resolves problem with java.awt.List and java.util.List
+import javax.imageio.ImageIO;
+import java.io.*;
 
 public class SheparFaireyLab
 {
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         // Pixel.getColor(): Color
         // Pixel.getRed(): int
         // Pixel.getGreen(): int
@@ -83,16 +85,24 @@ public class SheparFaireyLab
                 pxs2[j + (group2 * i)].setColor(colours2[i]);
             }
         }
-        Graphics g = dude2.getGraphics();
-        g.setFont(new Font("Comic Sans MS", Font.BOLD, dude2.getWidth() / 5));
-        g.setColor(new Color(255, 255, 0));
-        FontMetrics fm = g.getFontMetrics();
-        g.drawString("Cheese", (dude.getWidth() - fm.stringWidth("Cheese")) / 2, dude.getHeight());
-        dude2.explore();
+        cheese(dude2);
+        //dude2.explore();
         
-        //dude.write("dude1.jpg");
-        //dude1.write("dude2.jpg");
-        dude2.write("dude3.jpg");
+        Picture dude3 = new Picture("dude.jpg");
+        stuff(new Color[] { new Color(39, 86, 107), new Color(10, 152, 98), new Color(20, 139, 116), new Color(37, 110, 94) }, dude3);
+        cheese(dude3);
+        dude3.explore();
+        
+        Picture dude4 = new Picture("dude.jpg");
+        stuff(new Color[] { new Color(232, 49, 14), new Color(189, 51, 26), new Color(201, 83, 60), new Color(181, 39, 11) }, dude4);
+        cheese(dude4);
+        dude4.explore();
+        
+        save(dude, 1);
+        save(dude1, 2);
+        save(dude2, 3);
+        save(dude3, 4);
+        save(dude4, 5);
     }
     public static int sum(Pixel px) { return px.getRed() + px.getBlue() + px.getGreen(); }
     public static void gray(Pixel[] pxs) {
@@ -109,5 +119,27 @@ public class SheparFaireyLab
     }
     public static void sort(Pixel[] pxs) {
         Arrays.sort(pxs, (p1, p2) -> Integer.compare(sum(p1), sum(p2)));
+    }
+    public static void cheese(Picture picture) {
+        Graphics g = picture.getGraphics();
+        g.setFont(new Font("Comic Sans MS", Font.BOLD, picture.getWidth() / 5));
+        g.setColor(new Color(255, 255, 0));
+        FontMetrics fm = g.getFontMetrics();
+        g.drawString("Cheese", (picture.getWidth() - fm.stringWidth("Cheese")) / 2, picture.getHeight());
+    }
+    public static void stuff(Color[] colours, Picture pic) {
+        Pixel[] pxs = pic.getPixels();
+        gray(pxs);
+        sort(pxs);
+        int len = colours.length;
+        int group = Math.round(pxs.length / len);
+        for(int i = 0; i < len; i++) {
+            for(int j = 0; j < group; j++) {
+                pxs[j + (group * i)].setColor(colours[i]);
+            }
+        }
+    }
+    public static void save(Picture pic, int i) throws IOException {
+        ImageIO.write(pic.getBufferedImage(), "jpg", new File(String.format("dude%d.jpg", i)));
     }
 }

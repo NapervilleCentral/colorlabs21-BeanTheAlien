@@ -13,3 +13,12 @@ USER INSTRUCTIONS:
 
 Joshua
 good, why is it rotated sideways
+
+Finn
+terrible
+
+Joshua
+def needs to be a little lighter
+
+Finn
+terrible, actually its blood bath without a space
