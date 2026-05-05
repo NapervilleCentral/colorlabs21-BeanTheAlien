@@ -67,7 +67,7 @@ public class SheparFaireyLab
             int grp = groupOf(brightness, s, group1);
             px.setColor(colours[grp]);
         }
-        //dude1.explore();
+        dude1.explore();
         
         Color[] colours2 = {
             new Color(51, 138, 46),
@@ -86,7 +86,7 @@ public class SheparFaireyLab
             }
         }
         cheese(dude2);
-        //dude2.explore();
+        dude2.explore();
         
         Picture dude3 = new Picture("dude.jpg");
         stuff(new Color[] { new Color(39, 86, 107), new Color(10, 152, 98), new Color(20, 139, 116), new Color(37, 110, 94) }, dude3);
