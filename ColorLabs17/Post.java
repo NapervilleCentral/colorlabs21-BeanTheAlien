@@ -11,10 +11,12 @@ import java.util.List; // resolves problem with java.awt.List and java.util.List
 import javax.imageio.ImageIO;
 import java.io.*;
 import java.util.function.BiFunction;
+import java.util.function.Function;
 
 public class Post {
     public static final Picture canvas = new Picture("images/canvas.png");
     public static int off = 0;
+    public static int row = 0;
     public static void main(String[] args) throws IOException {
         /*Color[] colours = {
             new Color(9, 23, 89),
@@ -41,95 +43,56 @@ public class Post {
         //255, 153, 26
         var a6 = engi();
         for(var x : a6.getPixels()) {
-            x.setColor(new Color(255, Math.min(x.getGreen(), 153), Math.min(x.getBlue(), 26)));
+            //New Red = (R * .393) + (G * .769) + (B * .189)New Green = (R * .349) + (G * .686) + (B * .168)New Blue = (R * .272) + (G * .534) + (B * .131)
+            int r = x.getRed();
+            int g = x.getGreen();
+            int b = x.getBlue();
+            x.setColor(new Color(
+                Math.min((int)(r * 0.393) + (int)(g * 0.769) + (int)(b * 0.189), 255),
+                Math.min((int)(r * 0.349) + (int)(g * 0.686) + (int)(b * 0.168), 255),
+                Math.min((int)(r * 0.272) + (int)(g * 0.534) + (int)(b * 0.131), 255)
+            ));
         }
-        write(al, al1, al2, al3, a4, a5, a6);
+        var a7 = engi();
+        for(var x : a7.getPixels()) {
+            float s = 2.5f;
+            color(x, red(x) * s, green(x) * s, blue(x) * s);
+        }
+        var a8 = engi();
+        for(var x : a8.getPixels()) {
+            color(x, 255 - red(x), 255 - green(x), 255 - blue(x));
+        }
+        var a9 = engi();
+        for(var x : a9.getPixels()) {
+            int ro = red(x);
+            int go = green(x);
+            int bo = blue(x);
+            int r1 = 128 + (int)(2.5 * (ro - 128));
+            int g1 = 128 + (int)(2.5 * (go - 128));
+            int b1 = 128 + (int)(2.5 * (bo - 128));
+            int r2 = Math.round(r1 / 4) * (255 / 4);
+            int g2 = Math.round(g1 / 4) * (255 / 4);
+            int b2 = Math.round(b1 / 4) * (255 / 4);
+            color(x, 1.2 * r2, 1.2 * g2, 0.5 * b2);
+        }
+        var a10 = engi();
+        for(var x : a10.getPixels()) {
+            post(x, 6);
+        }
+        write(al, al1, al2, al3, a4, a5, a6, a7, a8, a9, a10);
         canvas.explore();
-        /*var x = new Picture("images/temple.jpg");
-        x.explore();
-        // 30-92
-        int w = x.getWidth();
-        int m = w / 2;
-        var p = x.getPixels();
-        for(int y = 30; y <= 92; y++) {
-            for(int z = 0; z < m; z++) {
-                var a = x.getPixel(z, y);
-                var b = x.getPixel(w - z - 1, y);
-                b.setColor(a.getColor());
-            }
-        }
-        x.explore();*/
-        //
-        // mirror::vert(middle)
-        // grayscale
-        //gray(pxs);
-        // 0 - 255
-        // dark blue | red | light blue | off white
-        //sort(pxs);
-        /*int group = Math.round(pxs.length / 4);
-        for(int i = 0; i < 4; i++) {
-            for(int j = 0; j < group; j++) {
-                pxs[j + (group * i)].setColor(colours[i]);
-            }
-        }*/
-        //dude.explore();
-        
-        // min - max
-        // dark blue | red | light blue | off white
-        /*Picture dude1 = new Picture("dude.jpg");
-        Pixel[] pxs1 = dude1.getPixels();
-        gray(pxs1);
-        sort(pxs1);
-        int s = sum(pxs1[0]);
-        int b = sum(pxs1[pxs1.length - 1]);
-        int group1 = (b - s) / 4;
-        for(Pixel px : pxs1) {
-            int brightness = sum(px);
-            int grp = groupOf(brightness, s, group1);
-            px.setColor(colours[grp]);
-        }
-        dude1.explore();
-        
-        Color[] colours2 = {
-            new Color(51, 138, 46),
-            new Color(42, 79, 110),
-            new Color(170, 122, 57),
-            new Color(168, 56, 59)
-        };
-        Picture dude2 = new Picture("dude.jpg");
-        Pixel[] pxs2 = dude2.getPixels();
-        gray(pxs2);
-        sort(pxs2);
-        int group2 = Math.round(pxs2.length / 4);
-        for(int i = 0; i < 4; i++) {
-            for(int j = 0; j < group2; j++) {
-                pxs2[j + (group2 * i)].setColor(colours2[i]);
-            }
-        }
-        cheese(dude2);
-        dude2.explore();
-        
-        Picture dude3 = new Picture("dude.jpg");
-        stuff(new Color[] { new Color(39, 86, 107), new Color(10, 152, 98), new Color(20, 139, 116), new Color(37, 110, 94) }, dude3);
-        cheese(dude3);
-        dude3.explore();
-        
-        Picture dude4 = new Picture("dude.jpg");
-        stuff(new Color[] { new Color(232, 49, 14), new Color(189, 51, 26), new Color(201, 83, 60), new Color(181, 39, 11) }, dude4);
-        cheese(dude4);
-        dude4.explore();
-        
-        save(al, 1);
-        save(dude1, 2);
-        save(dude2, 3);
-        save(dude3, 4);
-        save(dude4, 5);*/
     }
     public static Picture alien() {
         return new Picture("images/big_alien.png");
     }
     public static Picture engi() {
         return new Picture("images/engieer.png");
+    }
+    public static void post(Pixel x, int n) {
+        int l1 = n - 1;
+        int z = 255 / l1;
+        Function<Integer, Double> next = (a) -> (((a * l1) / 255) + 0.5) * z;
+        color(x, next.apply(red(x)), next.apply(green(x)), next.apply(blue(x)));
     }
     public static int sum(Pixel px) { return px.getRed() + px.getBlue() + px.getGreen(); }
     public static void gray(Pixel[] pxs) {
@@ -175,10 +138,14 @@ public class Post {
     public static void write(Picture pic) {
         for(int i = 0; i < pic.getWidth(); i++) {
             for(int j = 0; j < pic.getHeight(); j++) {
-                canvas.getPixel(i + off, j).setColor(pic.getPixel(i, j).getColor());
+                canvas.getPixel(i + off, j + row * pic.getHeight()).setColor(pic.getPixel(i, j).getColor());
             }
         }
         off += pic.getWidth();
+        if(off >= canvas.getWidth()) {
+            off = 0;
+            row++;
+        }
     }
     // sourceX, sourceY += 2 kleiner
     // sourceX, sourceY += 0.5 grosser
@@ -220,6 +187,36 @@ public class Post {
     }
     public static void resizeBig(Picture al) {
         try { resize(al, 0.5); } catch(Exception e) {}
+    }
+    public static Color color(Pixel x) {
+        return x.getColor();
+    }
+    private static int clamp(int in) {
+        return Math.max(0, Math.min(in, 255));
+    }
+    public static void color(Pixel x, int r, int g, int b) {
+        x.setColor(new Color(clamp(r), clamp(g), clamp(b)));
+    }
+    public static void color(Pixel x, double r, double g, double b) {
+        color(x, (int)r, (int)g, (int)b);
+    }
+    public static int red(Pixel x) {
+        return x.getRed();
+    }
+    public static void red(Pixel x, int r) {
+        color(x, r, green(x), blue(x));
+    }
+    public static int green(Pixel x) {
+        return x.getGreen();
+    }
+    public static void green(Pixel x, int g) {
+        color(x, red(x), g, blue(x));
+    }
+    public static int blue(Pixel x) {
+        return x.getBlue();
+    }
+    public static void blue(Pixel x, int b) {
+        color(x, red(x), green(x), b);
     }
     /**
      * Pixel sourcePix = null
