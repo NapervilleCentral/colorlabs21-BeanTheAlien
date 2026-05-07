@@ -12,11 +12,14 @@ import javax.imageio.ImageIO;
 import java.io.*;
 import java.util.function.BiFunction;
 import java.util.function.Function;
+import java.awt.geom.*;
+import java.awt.image.*;
 
 public class Post {
     public static final Picture canvas = new Picture("images/canvas.png");
     public static int off = 0;
     public static int row = 0;
+    public static ArrayList<Integer> offs = new ArrayList();
     public static void main(String[] args) throws IOException {
         /*Color[] colours = {
             new Color(9, 23, 89),
@@ -34,7 +37,7 @@ public class Post {
         //al2.explore();
         var al3 = engi();
         for(var x : al3.getPixels()) {
-            x.setColor(new Color(x.getRed(), Math.min((int)(x.getGreen() * 4.5), 255), x.getBlue()));
+            x.setColor(new Color((int)(x.getRed() / 2.5), Math.min((int)(x.getGreen() * 4.5), 255), (int)(x.getBlue() / 2.5)));
         }
         var a4 = engi();
         resizeSmall(a4);
@@ -75,11 +78,24 @@ public class Post {
             int b2 = Math.round(b1 / 4) * (255 / 4);
             color(x, 1.2 * r2, 1.2 * g2, 0.5 * b2);
         }
+        int a9oy = row + a9.getHeight();
         var a10 = engi();
         for(var x : a10.getPixels()) {
             post(x, 6);
         }
-        write(al, al1, al2, al3, a4, a5, a6, a7, a8, a9, a10);
+        var a11 = engi();
+        for(var x : a11.getPixels()) {
+            double a = x.getAverage();
+            color(x, a, a, a);
+        }
+        var a12 = engi();
+        vertMir(a12);
+        horizMir(a12);
+        write(al, al1, al2, al3, a4, a5, a6, a7, a8, a9, a10, a11, a12);
+        Graphics g = canvas.getGraphics();
+        g.setColor(Color.green);
+        g.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
+        g.drawString("Beanz", offs.get(8) + g.getFontMetrics().stringWidth("Beanz") / 2, a9oy);
         canvas.explore();
     }
     public static Picture alien() {
@@ -142,6 +158,7 @@ public class Post {
             }
         }
         off += pic.getWidth();
+        offs.add(off);
         if(off >= canvas.getWidth()) {
             off = 0;
             row++;
@@ -194,8 +211,11 @@ public class Post {
     private static int clamp(int in) {
         return Math.max(0, Math.min(in, 255));
     }
+    public static void color(Pixel x, Color color) {
+        x.setColor(color);
+    }
     public static void color(Pixel x, int r, int g, int b) {
-        x.setColor(new Color(clamp(r), clamp(g), clamp(b)));
+        color(x, new Color(clamp(r), clamp(g), clamp(b)));
     }
     public static void color(Pixel x, double r, double g, double b) {
         color(x, (int)r, (int)g, (int)b);
