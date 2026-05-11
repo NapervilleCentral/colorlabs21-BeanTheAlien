@@ -37,12 +37,10 @@ public class Post {
         //al2.explore();
         var al3 = engi();
         for(var x : al3.getPixels()) {
-            x.setColor(new Color((int)(x.getRed() / 2.5), Math.min((int)(x.getGreen() * 4.5), 255), (int)(x.getBlue() / 2.5)));
+            x.setColor(new Color((int)(x.getRed() / 2.5), Math.min((int)(x.getGreen() * 2.65), 255), (int)(x.getBlue() / 2.5)));
         }
         var a4 = engi();
-        resizeSmall(a4);
-        var a5 = engi();
-        resizeBig(a5);
+        epicResize(a4, a4.getWidth() / 2, a4.getHeight() / 2);
         //255, 153, 26
         var a6 = engi();
         for(var x : a6.getPixels()) {
@@ -58,7 +56,7 @@ public class Post {
         }
         var a7 = engi();
         for(var x : a7.getPixels()) {
-            float s = 2.5f;
+            float s = 4.5f;
             color(x, red(x) * s, green(x) * s, blue(x) * s);
         }
         var a8 = engi();
@@ -66,22 +64,11 @@ public class Post {
             color(x, 255 - red(x), 255 - green(x), 255 - blue(x));
         }
         var a9 = engi();
-        for(var x : a9.getPixels()) {
-            int ro = red(x);
-            int go = green(x);
-            int bo = blue(x);
-            int r1 = 128 + (int)(2.5 * (ro - 128));
-            int g1 = 128 + (int)(2.5 * (go - 128));
-            int b1 = 128 + (int)(2.5 * (bo - 128));
-            int r2 = Math.round(r1 / 4) * (255 / 4);
-            int g2 = Math.round(g1 / 4) * (255 / 4);
-            int b2 = Math.round(b1 / 4) * (255 / 4);
-            color(x, 1.2 * r2, 1.2 * g2, 0.5 * b2);
-        }
+        deepfry(a9.getPixels());
         int a9oy = row + a9.getHeight();
         var a10 = engi();
         for(var x : a10.getPixels()) {
-            post(x, 6);
+            post(x, 8);
         }
         var a11 = engi();
         for(var x : a11.getPixels()) {
@@ -91,18 +78,33 @@ public class Post {
         var a12 = engi();
         vertMir(a12);
         horizMir(a12);
-        write(al, al1, al2, al3, a4, a5, a6, a7, a8, a9, a10, a11, a12);
-        Graphics g = canvas.getGraphics();
-        g.setColor(Color.green);
-        g.setFont(new Font("Comic Sans MS", Font.PLAIN, 24));
-        g.drawString("Beanz", offs.get(8) + g.getFontMetrics().stringWidth("Beanz") / 2, a9oy);
+        var a13 = engi();
+        minecraft(a13);
+        write(al, al1, al2, al3, a4, a6, a7, a8, a9, a10, a11, a12, a13);
         canvas.explore();
+    }
+    public static void deepfry(Pixel[] pixels) {
+        for(var x : pixels) {
+            int ro = red(x);
+            int go = green(x);
+            int bo = blue(x);
+            int r1 = 128 + (int)(2.5 * (ro - 128));
+            int g1 = 128 + (int)(2.5 * (go - 128));
+            int b1 = 128 + (int)(2.5 * (bo - 128));
+            int n = 6;
+            int r2 = Math.round(r1 / n) * (255 / n);
+            int g2 = Math.round(g1 / n) * (255 / n);
+            int b2 = Math.round(b1 / n) * (255 / n);
+            float m1 = 1.8f;
+            float m2 = 0.2f;
+            color(x, m1 * r2, m1 * g2, m2 * b2);
+        }
     }
     public static Picture alien() {
         return new Picture("images/big_alien.png");
     }
     public static Picture engi() {
-        return new Picture("images/engieer.png");
+        return new Picture("images/engi.png");
     }
     public static void post(Pixel x, int n) {
         int l1 = n - 1;
@@ -159,7 +161,7 @@ public class Post {
         }
         off += pic.getWidth();
         offs.add(off);
-        if(off >= canvas.getWidth()) {
+        if(offs.size() % 4 == 0) {
             off = 0;
             row++;
         }
@@ -199,11 +201,21 @@ public class Post {
             }
         }
     }
+    public static void epicResize(Picture al, int sw, int sh) {
+        if(sw < 25 || sh < 25) return;
+        for(int i = sw; i >= 0; i--) for(int j = 0; j < sh; j++) al.getPixel(i, j).setColor(al.getPixel((int)(i * 1.5), (int)(j * 1.5)).getColor());
+        epicResize(al, sw / 2, sh / 2);
+    }
+    /*
+       int subwidth, int subheight
+       for(i = subwidth, i >= 0, i--) for(j = 0, j < subheight, j++) get(i*2, j*2)
+       recuyrse(i, sw/2, sh/2)
+    */
     public static void resizeSmall(Picture al) {
         try { resize(al, 2); } catch(Exception e) {}
     }
     public static void resizeBig(Picture al) {
-        try { resize(al, 0.5); } catch(Exception e) {}
+        try { resize(al, 0.1); } catch(Exception e) {}
     }
     public static Color color(Pixel x) {
         return x.getColor();
@@ -237,6 +249,17 @@ public class Post {
     }
     public static void blue(Pixel x, int b) {
         color(x, red(x), green(x), b);
+    }
+    public static void minecraft(Picture pic) {
+        int chunk = 10;
+        for(int x = 0; x < pic.getWidth(); x += chunk) {
+            for(int y = 0; y < pic.getHeight(); y += chunk) {
+                var a = pic.getPixel(x, y).getColor();
+                for(int i = 1; i < chunk; i++) {
+                    pic.getPixel(x, y + i).setColor(a);
+                }
+            }
+        }
     }
     /**
      * Pixel sourcePix = null
