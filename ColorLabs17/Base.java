@@ -14,16 +14,12 @@ import java.util.function.BiFunction;
 import java.util.function.Function;
 import java.awt.geom.*;
 import java.awt.image.*;
-import java.nio.file.*;
 
-public class Post {
+public abstract class Base {
     public static final Picture canvas = new Picture("images/canvas.png");
     public static int off = 0;
     public static int row = 0;
     public static ArrayList<Integer> offs = new ArrayList();
-    public static Picture pic() {
-        return new Picture("images/blue-mark.jpg");
-    }
     public static void main(String[] args) throws IOException {
         /*Color[] colours = {
             new Color(9, 23, 89),
@@ -31,22 +27,22 @@ public class Post {
             new Color(156, 208, 240),
             new Color(255, 250, 250)
         };*/
-        var al = pic(); // engi();
-        var al1 = pic(); // engi();
+        var al = engi();
+        var al1 = engi();
         //var pxs = al.getPixels();
         vertMir(al1);
         //al1.explore();
-        var al2 = pic(); // engi();
+        var al2 = engi();
         horizMir(al2);
         //al2.explore();
-        var al3 = pic(); // engi();
+        var al3 = engi();
         for(var x : al3.getPixels()) {
             x.setColor(new Color((int)(x.getRed() / 2.5), Math.min((int)(x.getGreen() * 2.65), 255), (int)(x.getBlue() / 2.5)));
         }
-        var a4 = pic(); // engi();
+        var a4 = engi();
         epicResize(a4, a4.getWidth() / 2, a4.getHeight() / 2);
         //255, 153, 26
-        var a6 = pic(); // engi();
+        var a6 = engi();
         for(var x : a6.getPixels()) {
             //New Red = (R * .393) + (G * .769) + (B * .189)New Green = (R * .349) + (G * .686) + (B * .168)New Blue = (R * .272) + (G * .534) + (B * .131)
             int r = x.getRed();
@@ -58,35 +54,34 @@ public class Post {
                 Math.min((int)(r * 0.272) + (int)(g * 0.534) + (int)(b * 0.131), 255)
             ));
         }
-        var a7 = pic(); // engi();
+        var a7 = engi();
         for(var x : a7.getPixels()) {
             float s = 4.5f;
             color(x, red(x) * s, green(x) * s, blue(x) * s);
         }
-        var a8 = pic(); // engi();
+        var a8 = engi();
         for(var x : a8.getPixels()) {
             color(x, 255 - red(x), 255 - green(x), 255 - blue(x));
         }
-        var a9 = pic(); // engi();
+        var a9 = engi();
         deepfry(a9.getPixels());
         int a9oy = row + a9.getHeight();
-        var a10 = pic(); // engi();
+        var a10 = engi();
         for(var x : a10.getPixels()) {
-            post(x, 6);
+            post(x, 8);
         }
-        var a11 = pic(); // engi();
+        var a11 = engi();
         for(var x : a11.getPixels()) {
             double a = x.getAverage();
             color(x, a, a, a);
         }
-        var a12 = pic(); // engi();
+        var a12 = engi();
         vertMir(a12);
         horizMir(a12);
-        var a13 = pic(); // engi();
+        var a13 = engi();
         minecraft(a13);
         write(al, al1, al2, al3, a4, a6, a7, a8, a9, a10, a11, a12, a13);
         canvas.explore();
-        save();
     }
     public static void deepfry(Pixel[] pixels) {
         for(var x : pixels) {
@@ -155,12 +150,8 @@ public class Post {
             }
         }
     }
-    public static void save() throws IOException {
-        int i = 0;
-        while(Files.exists(Paths.get(String.format("images/poster%d.png", i)))) {
-            i++;
-        }
-        ImageIO.write(canvas.getBufferedImage(), "png", new File(String.format("images/poster%d.png", i)));
+    public static void save(Picture alClone, int i) throws IOException {
+        ImageIO.write(alClone.getBufferedImage(), "png", new File(String.format("images/al%d.png", i)));
     }
     public static void write(Picture... pics) {
         for(var x : pics) write(x);
