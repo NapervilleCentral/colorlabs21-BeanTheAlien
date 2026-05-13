@@ -22,7 +22,7 @@ public class Post {
     public static int row = 0;
     public static ArrayList<Integer> offs = new ArrayList();
     public static Picture pic() {
-        return new Picture("images/blue-mark.jpg");
+        return new Picture("images/leek-big.png");
     }
     public static void main(String[] args) throws IOException {
         /*Color[] colours = {
@@ -43,11 +43,11 @@ public class Post {
         for(var x : al3.getPixels()) {
             x.setColor(new Color((int)(x.getRed() / 2.5), Math.min((int)(x.getGreen() * 2.65), 255), (int)(x.getBlue() / 2.5)));
         }
-        var a4 = pic(); // engi();
-        epicResize(a4, a4.getWidth() / 2, a4.getHeight() / 2);
+        var al4 = pic(); // engi();
+        epicResize(al4, al4.getWidth() / 2, al4.getHeight() / 2);
         //255, 153, 26
-        var a6 = pic(); // engi();
-        for(var x : a6.getPixels()) {
+        var al6 = pic(); // engi();
+        for(var x : al6.getPixels()) {
             //New Red = (R * .393) + (G * .769) + (B * .189)New Green = (R * .349) + (G * .686) + (B * .168)New Blue = (R * .272) + (G * .534) + (B * .131)
             int r = x.getRed();
             int g = x.getGreen();
@@ -84,7 +84,11 @@ public class Post {
         horizMir(a12);
         var a13 = pic(); // engi();
         minecraft(a13);
-        write(al, al1, al2, al3, a4, a6, a7, a8, a9, a10, a11, a12, a13);
+        var a14 = pic();
+        blender(a14);
+        var a15 = pic();
+        fortran(a15);
+        write(al, al1, al2, al3, al4, al6, a7, a8, a9, a10, a11, a12, a13, a14, a15);
         canvas.explore();
         save();
     }
@@ -200,7 +204,7 @@ public class Post {
             for(int x = 0; x < m; x++) {
                 var a = al.getPixel(y, x);
                 var b = al.getPixel(y, w - x - 1);
-                b.setColor(a.getColor());
+                try { b.setColor(a.getColor());  } catch(Exception e) {}
             }
         }
     }
@@ -271,6 +275,34 @@ public class Post {
                     try { pic.getPixel(x + i, y).setColor(a); } catch(Exception e) {}
                 }
             }
+        }
+    }
+    public static void blender(Picture pic) {
+        int chunk = 15;
+        for(int x = 0; x < pic.getWidth(); x += chunk) {
+            for(int y = 0; y < pic.getHeight(); y++) {
+                var c = pic.getPixel(x, y).getColor();
+                for(int i = 1; i < chunk; i++) {
+                    try {
+                        var p = pic.getPixel(x + i, y);
+                        c = new Color(Math.min(c.getRed() + p.getRed(), 255), Math.min(c.getGreen() + p.getGreen(), 255), Math.min(c.getBlue() + p.getBlue(), 255));
+                        p.setColor(c);
+                    } catch(Exception e) {}
+                }
+                pic.getPixel(x, y).setColor(c);
+            }
+        }
+    }
+    public static void fortran(Picture pic) {
+        Function<Integer, Float> run = (in) -> ((259 * (in + 255)) / (float)(255 * (259 - in)));
+        BiFunction<Float, Integer, Integer> next = (F, in) -> (clamp((int)(F * (in - 128) + 128)));
+        for(var x : pic.getPixels()) {
+            float f1 = run.apply(red(x));
+            float f2 = run.apply(green(x));
+            float f3 = run.apply(blue(x));
+            red(x, next.apply(f1, red(x)));
+            green(x, next.apply(f2, green(x)));
+            blue(x, next.apply(f3, blue(x)));
         }
     }
     /**
